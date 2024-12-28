@@ -4,10 +4,38 @@
 {% block title %}{{ post.title }} | {% endblock title %}
 
 {% block content %}
-    <h1>{{ post.intro }}</h1>
-    <p>{{ post.body |safe}}</p>
-    <p>{{ post.created_at }}</p>
-    <p>{{ post.author }}</p>
+<section class="hero">
+    <div class="hero-body">
+       <div class="container">
+          <section class="section">
+             <div class="columns">
+                <div class="column is-8 is-offset-2">
+                    <div class ="content is-medium">
+                        <h2 class="subtitle is-4">{{post.created_at|timesince}} ago</h2>
+                        <h1 class="title">{{post.title}}</h1>
+                        <p>{{post.intro}}</p>
+                        <p>{{ post.body |safe}}</p>
+                        <hr>
+                        <h2 class="subtitle is-4">Comments</h2>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button class="button is-primary" type="submit">Add Comment</button>
+                        </form>
+                        <hr>
+                        {% for comment in post.comments.all %}
+                            <div class="content is-medium">
+                                <p>{{ comment.body }}</p>
+                                <p>{{ comment.created_at|timesince }} ago</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>   
+             </div>
+          </section>
+       </div>
+    </div>
+ </section>
 {% endblock content %}
 
 
