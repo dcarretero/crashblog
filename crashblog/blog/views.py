@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404,redirect
-from .models import Post
+from .models import Post,Category
 from .forms import CommentForm
 
 def post_detail(request, slug):
@@ -15,4 +15,9 @@ def post_detail(request, slug):
     else:
         form = CommentForm()
     
-    return render(request, 'blog/detail.html', {'post': post, 'form': form})
+    return render(request, 'blog/post_detail.html', {'post': post, 'form': form})
+
+def category_detail(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    posts = category.posts_set.filter(status='published')
+    return render(request, 'blog/category_detail.html', {'category': category})

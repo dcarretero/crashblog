@@ -16,6 +16,7 @@ class Post(models.Model):
     intro = models.TextField()
     body = CKEditor5Field('Text',config_name='extends')
     created_at = models.DateTimeField(auto_now_add=True)
+    categories = models.ManyToManyField('Category', related_name='posts_set', blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
 
@@ -39,3 +40,13 @@ class Comment(models.Model):
     def __str__(self):
         return f'Comment by {self.name} on {self.post}'
     
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100, unique=True)
+    posts = models.ManyToManyField(Post, related_name='categories_set',blank=True)
+
+    class Meta:
+        verbose_name_plural = 'categories'
+
+    def __str__(self):
+        return self.name

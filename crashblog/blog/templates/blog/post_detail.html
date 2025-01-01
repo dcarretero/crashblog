@@ -15,6 +15,12 @@
                         <h1 class="title">{{post.title}}</h1>
                         <p>{{post.intro}}</p>
                         <p>{{ post.body |safe}}</p>
+                        <p><small>Categories: 
+                            {% for category in post.categories.all %}
+                            <span><a href="{% url 'blog:category_detail' category.slug %}">{{ category.name }}</a></span>{% if not forloop.last %}&nbsp;{% endif %}
+                            {% endfor %}
+                            </small>
+                        </p>
                         <hr>
                         <h2 class="subtitle is-4">Comments</h2>
                         <form method="post">
