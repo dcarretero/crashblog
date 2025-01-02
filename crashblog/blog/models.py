@@ -14,7 +14,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     intro = models.TextField()
-    body = CKEditor5Field('Text',config_name='extends')
+    body = CKEditor5Field('Body',config_name='extends')
     created_at = models.DateTimeField(auto_now_add=True)
     categories = models.ManyToManyField('Category', related_name='posts_set', blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
