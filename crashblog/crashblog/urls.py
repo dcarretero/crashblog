@@ -17,14 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls.static import static
-from core.views import frontpage, about
+from apps.core.views import frontpage, about
 from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', frontpage, name='frontpage'),
     path('about/', about, name='about'),
-    path('blog/', include('blog.urls')),
+    path('blog/', include('apps.blog.urls')),
     path("ckeditor5/", include('django_ckeditor_5.urls')),
 ]
 
