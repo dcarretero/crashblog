@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sitemaps',
     'django.contrib.staticfiles',
     'apps.core',
     'apps.blog',
@@ -79,11 +80,14 @@ WSGI_APPLICATION = 'crashblog.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'app_db',
+        'USER': 'postgres',
+        'PASSWORD': 'carpediem',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -135,8 +139,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # CKEditor Settings
+CKEDITOR_5_FILE_STORAGE = "apps.core.storage.CustomStorage"
 
-# path to the custom CSS file
 CKEDITOR_5_CUSTOM_CSS = 'ckeditor5/admin_dark_mode_fix.css'
 
 customColorPalette = [

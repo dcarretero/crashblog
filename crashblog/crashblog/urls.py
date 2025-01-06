@@ -17,15 +17,26 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls.static import static
-from apps.core.views import frontpage, about
+from django.contrib.sitemaps.views import sitemap
+from apps.core.views import frontpage, about,robots_txt
 from django.conf import settings
+
+from .sitemaps import CategorySitemap, PostSitemap
+
+sitemaps = {
+    'categories': CategorySitemap,
+    'posts': PostSitemap,
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}),
+    path('robots.txt', robots_txt, name='robots_txt'),
     path('', frontpage, name='frontpage'),
     path('about/', about, name='about'),
     path('blog/', include('apps.blog.urls')),
     path("ckeditor5/", include('django_ckeditor_5.urls')),
+    
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

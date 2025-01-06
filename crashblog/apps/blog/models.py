@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django_ckeditor_5.fields import CKEditor5Field
+from django.urls import reverse
 
 # Create your models here.
 
@@ -15,6 +16,7 @@ class Post(models.Model):
     slug = models.SlugField(max_length=200, unique=True)
     intro = models.TextField()
     body = CKEditor5Field('Body',config_name='extends')
+    image = models.ImageField(upload_to='images/', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     categories = models.ManyToManyField('Category', related_name='posts_set', blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -25,6 +27,8 @@ class Post(models.Model):
         
     def __str__(self):
         return self.title
+    def get_absolute_url(self):
+        return '/%s/%s/' % ('blog', self.slug)
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
@@ -39,6 +43,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Comment by {self.name} on {self.post}'
+
+
     
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -50,3 +56,5 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    def get_absolute_url(self):
+        return '/%s/%s/%s/' % ('blog','category', self.slug)
